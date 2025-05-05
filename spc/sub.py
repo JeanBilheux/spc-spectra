@@ -197,9 +197,5 @@ class subFileOld:
                     _value = np.int32(_value)
                 new_y_int.append(_value / (2**(32 - exp)))
                 
-            y_int = new_y_int
-
-        # do stuff if subflgs
-        # if 1 subfile changed
-        # if 8 if peak table should not be used
-        # if 128 if subfile modified by arithmetic
+            y_int = np.array(new_y_int)
+            self.y = y_int
