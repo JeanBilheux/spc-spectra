@@ -183,10 +183,21 @@ class subFileOld:
                 y_int.append((
                     y_raw[i + 1] * (256**3) + y_raw[i] * (256**2) +
                     y_raw[i + 3] * (256) + y_raw[i + 2]))
-            # fix negative values by casting to np.int32 (signed int)
-            y_int = np.int32(y_int) / (2**(32 - exp))
+                
+            # make it work with numpy 2.+ as well
 
-            self.y = y_int
+            max_int32 = np.iinfo(np.int32).max
+            min_int32 = np.iinfo(np.int32).min
+
+            new_y_int = []
+            for _value in y_int:
+                if _value > max_int32:
+                    _value = min_int32 - (max_int32 - _value) - 1
+                else:
+                    _value = np.int32(_value)
+                new_y_int.append(_value / (2**(32 - exp)))
+                
+            y_int = new_y_int
 
         # do stuff if subflgs
         # if 1 subfile changed
